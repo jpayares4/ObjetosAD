@@ -6,6 +6,8 @@
 
 package interfaz;
 import clases.Persona;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author jpayares4
@@ -15,8 +17,9 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    Persona v[]=new Persona[5];
-    int cont=0;
+  
+
+    ArrayList<Persona>v=new ArrayList();
     public Principal() {
         initComponents();
     }
@@ -36,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtidentificacion = new javax.swing.JTextField();
+        txtIdentificacion = new javax.swing.JTextField();
         txtPrimernombre = new javax.swing.JTextField();
         txtPrimerapellido = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -68,7 +71,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel5.setText("Primer apellido:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
-        jPanel2.add(txtidentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 80, -1));
+        jPanel2.add(txtIdentificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 80, -1));
         jPanel2.add(txtPrimernombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 80, -1));
         jPanel2.add(txtPrimerapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 80, -1));
 
@@ -86,9 +89,19 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.add(cmdguardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         cmdMostrar.setText("Mostrar");
+        cmdMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdMostrarActionPerformed(evt);
+            }
+        });
         jPanel3.add(cmdMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
         cmdLimpiar.setText("Limpiar");
+        cmdLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLimpiarActionPerformed(evt);
+            }
+        });
         jPanel3.add(cmdLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 160, 180));
@@ -126,17 +139,57 @@ public class Principal extends javax.swing.JFrame {
     private void cmdguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdguardarActionPerformed
         // TODO add your handling code here:
         Persona p;
-        long identificacion;
+        long Identificacion;
         String primer_nombre,primer_apellido;
-        int cont=0;
-        identificacion = Long.parseLong(txtidentificacion.getText());
+       
+        
+        Identificacion = Long.parseLong(txtIdentificacion.getText());
         primer_nombre=txtPrimernombre.getText();
          primer_apellido=txtPrimerapellido.getText();
         
-         p = new Persona(identificacion, primer_nombre,primer_apellido);
-         v[cont]=p;
-         cont++;
+         p = new Persona(Identificacion, primer_nombre,primer_apellido);
+         v.add(p);
+      
+         JOptionPane.showMessageDialog(this, "Persona Agregada Exitosamente!");
+         txtIdentificacion.setText("");
+          txtPrimernombre.setText("");
+           txtPrimerapellido.setText("");          
+             txtIdentificacion.requestFocusInWindow();
     }//GEN-LAST:event_cmdguardarActionPerformed
+
+    private void cmdMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMostrarActionPerformed
+        // TODO add your handling code here:
+        String aux;
+        
+        txtResultado.setText("");
+               if(v.isEmpty()){
+                   txtResultado.setText("No hay personas que mostrar");
+               }
+               else{
+                   
+               
+        for (int i = 0; i < v.size(); i++) {
+            aux ="Persona N°."+(i+1)+"\n"
+                    + "identificacion:"+v.get(i).getIdentificacion()+"\n"
+                    +"Primer nombre: "+v.get(i).getPrimer_nombre()+"\n"
+                    +"Primer apellido: "+v.get(i).getPrimer_apellido()+"\n\n";
+            txtResultado.append(aux);
+        }
+        }
+    }//GEN-LAST:event_cmdMostrarActionPerformed
+
+    private void cmdLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLimpiarActionPerformed
+        // TODO add your handling code here:
+        int op;
+        op=JOptionPane.showConfirmDialog(this, "¿seguro que quiere eliminar las personas?", "Pregunta",JOptionPane.YES_NO_OPTION);
+        if (op==JOptionPane.YES_OPTION){
+            v.clear();
+            txtIdentificacion.setText("");
+          txtPrimernombre.setText("");
+           txtPrimerapellido.setText("");          
+             txtIdentificacion.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_cmdLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,9 +240,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtIdentificacion;
     private javax.swing.JTextField txtPrimerapellido;
     private javax.swing.JTextField txtPrimernombre;
     private javax.swing.JTextArea txtResultado;
-    private javax.swing.JTextField txtidentificacion;
     // End of variables declaration//GEN-END:variables
 }
